@@ -14,9 +14,7 @@ We are currently preparing the code, datasets, model weights, and other material
 
 As historical memory grows, managing spatial memory becomes increasingly complex, requiring coordinated organization, maintenance, sparsification, and retrieval. This calls for a more intelligent and comprehensive memory-management approach.
 
-**Spatial Memory Intelligence (SMI)** is the first understanding-driven unified spatial-memory manager for long-video world models. It uses a multimodal large language model (MLLM) to coordinate four atomic operations, bringing semantic and spatial reasoning into the memory-management pipeline.
-
-Experiments across multiple baselines, benchmarks, and world-model backbones demonstrate improvements in **memory sparsity, spatial consistency, and generation stability**.
+We propose **Spatial Memory Intelligence (SMI)**, the first understanding-driven unified spatial-memory manager. Four coordinated atomic operations bring semantic and spatial reasoning into the memory-management pipeline, achieving comprehensive improvements in memory sparsity, spatial consistency, and generation stability across multiple baselines, benchmarks, and world-model backbones.
 
 ![SMI overview: organizing spatial memory, retrieving relevant observations, and improving consistency and stability.](File/teaser.png)
 
