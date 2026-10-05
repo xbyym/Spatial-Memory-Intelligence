@@ -55,10 +55,16 @@ This public repository currently provides the project overview and supporting fi
 
 Installation requirements, runnable examples, and reproduction instructions will accompany the code release.
 
-## Authors
+## Citation
 
-[Ying Yang](https://github.com/xbyym)<sup>1,*</sup>, [Guiyu Zhang](https://grenoble-zhang.github.io/)<sup>1,2,*</sup>, [Lianghua Huang](https://github.com/huanglianghua)<sup>2</sup>, [Chang Nie](https://github.com/Clare-Nie)<sup>4</sup>, [Chenyang Si](https://chenyangsi.top/)<sup>4</sup>, [Haofan Wang](https://haofanwang.github.io/)<sup>5</sup>, [Shaoshuai Shi](https://shishaoshuai.com/)<sup>6</sup>, and [Li Jiang](https://llijiang.github.io/)<sup>1,3,†</sup>.
+If you find this paper useful for your research, please kindly cite our paper:
 
-\* Equal contribution. † Corresponding author.
-
-<sup>1</sup> The Chinese University of Hong Kong, Shenzhen · <sup>2</sup> Alibaba Group · <sup>3</sup> Shenzhen Loop Area Institute · <sup>4</sup> Nanjing University · <sup>5</sup> Lovart AI · <sup>6</sup> Voyager Research, Didi Chuxing
+```bibtex
+@article{yang2026smi,
+  title={Spatial Memory Intelligence: Endowing World Models with Understanding-Driven Long-Term Memory},
+  author={Ying Yang and Guiyu Zhang and Lianghua Huang and Chang Nie and Chenyang Si and Haofan Wang and Shaoshuai Shi and Li Jiang},
+  journal={arXiv preprint arXiv:2610.02521},
+  year={2026},
+  url={https://arxiv.org/abs/2610.02521}
+}
+```
