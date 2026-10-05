@@ -4,7 +4,7 @@
 
 ### Endowing World Models with Understanding-Driven Long-Term Memory
 
-[Project Website](https://spatial-memory-intelligence.github.io/) · [Video Comparisons](https://spatial-memory-intelligence.github.io/#demos) · [Method](https://spatial-memory-intelligence.github.io/#method)
+[Paper](https://arxiv.org/abs/2610.02521) · [Project Website](https://spatial-memory-intelligence.github.io/) · [Video Comparisons](https://spatial-memory-intelligence.github.io/#demos) · [Method](https://spatial-memory-intelligence.github.io/#method)
 
 We are currently preparing the code, datasets, model weights, and other materials for release.
 
@@ -49,7 +49,7 @@ This public repository currently provides the project overview and supporting fi
 | --- | --- |
 | Project website and video demonstrations | [Available](https://spatial-memory-intelligence.github.io/) |
 | Training, inference, and evaluation code | Coming soon |
-| Paper | Link to be added |
+| Paper | [Available on arXiv](https://arxiv.org/abs/2610.02521) |
 | Model weights on Hugging Face | Link to be added |
 | Dataset | Link to be added |
 
