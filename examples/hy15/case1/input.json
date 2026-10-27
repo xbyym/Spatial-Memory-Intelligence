@@ -1,0 +1,8 @@
+{
+  "name": "case1",
+  "image_path": "first_frame.png",
+  "prompt": "Photorealistic sophisticated urban environmental photography. An elegant quiet limestone civic square after sunrise, arcaded stone facades on the left, sculptural empty benches and copper-roofed municipal buildings on the right, broad navigable pale paving and a distant clock tower. Dry pavement, no fountain, no vehicles. Exactly ONE adult woman in a burgundy jacket and light trousers walking slowly across the middle distance. The lone woman takes a few slow natural steps across the square. There is only this one independently moving subject in the entire scene. No other people, animals, robots or moving vehicles appear, including in the background. Any architectural ornaments and displays remain static. The subject stays near its initial location and moves independently of the camera. First-person environmental camera viewpoint, coherent spatial geometry, detailed surroundings, continuous shot, no cuts or overlays.",
+  "pose": "left-60,hold-27,right-60,a-22,left-18,hold-8,right-18,d-22,a-18,d-18",
+  "seed": 26903100,
+  "num_frames": 1085
+}

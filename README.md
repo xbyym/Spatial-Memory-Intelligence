@@ -4,9 +4,13 @@
 
 ### Endowing World Models with Understanding-Driven Long-Term Memory
 
-[Paper](https://arxiv.org/abs/2610.02521) · [Project Website](https://spatial-memory-intelligence.github.io/) · [Video Comparisons](https://spatial-memory-intelligence.github.io/#demos) · [Hugging Face](https://huggingface.co/papers/2610.02521)
+<p align="center">
+  <a href="https://arxiv.org/abs/2610.02521"><img src="https://img.shields.io/badge/Paper-arXiv-0088CC?style=flat-square&amp;logo=arxiv&amp;logoColor=white&amp;labelColor=555555" alt="Paper" width="116" height="24"></a>
+  <a href="https://spatial-memory-intelligence.github.io/"><img src="https://img.shields.io/badge/Website-Project%20Page-9CDEC9?style=flat-square&amp;labelColor=555555" alt="Project Website" width="158" height="24"></a>
+  <a href="https://spatial-memory-intelligence.github.io/#demos"><img src="https://img.shields.io/badge/Video-Comparisons-8B5CF6?style=flat-square&amp;labelColor=555555" alt="Video Comparisons" width="146" height="24"></a>
+  <a href="https://huggingface.co/datasets/yycfq1314/SMI"><img src="https://img.shields.io/badge/%F0%9F%A4%97-Hugging%20Face-FFD21E?style=flat-square&amp;labelColor=555555" alt="Data &amp; Models" width="127" height="24"></a>
+</p>
 
-We are currently preparing the code, datasets, model weights, and other materials for release.
 
 </div>
 
@@ -33,27 +37,145 @@ Dedicated instructions and supervision teach the MLLM the semantic and spatial j
 
 ![SMI framework: an understanding model coordinates four atomic operations around persistent spatial memory.](File/framework.png)
 
-## Video Comparisons
+## Installation
 
-The project website presents synchronized, side-by-side video comparisons, grouped by world-model backbone: **HY1.5** and **Wan2.2**.
+Use Linux, Python 3.10, CUDA 12.4, and `ffmpeg` / `ffprobe`.
 
-Each example compares SMI with Base. Selected examples also include FramePack, Deep Forcing, MoC, VMem, and MemFlow. Dynamic red boxes highlight selected spatial and structural inconsistencies.
+```bash
+git clone https://github.com/xbyym/Spatial-Memory-Intelligence.git
+cd Spatial-Memory-Intelligence
+bash scripts/setup_env.sh
+source .venv/bin/activate
+python scripts/check_environment.py
+```
 
-**[Explore the interactive comparisons →](https://spatial-memory-intelligence.github.io/#demos)**
+The environment uses PyTorch 2.6, Transformers 5.3, Diffusers 0.35, FlashAttention 2.7, and SageAttention 2.2. Runs have been tested on 96 GB NVIDIA H20 GPUs. HY1.5 and Wan2.2 support **four or eight GPUs for one inference job**.
 
-## Release Status
+## Models and data
 
-This public repository currently provides the project overview and supporting figures in `File/`. Training, inference, and evaluation code is coming soon.
+Download the SMI weights and training data from [Hugging Face](https://huggingface.co/datasets/yycfq1314/SMI). There is one Qwen controller for HY1.5 and one for Wan2.2.
 
-| Resource | Status |
+```bash
+# Sign in to access the private assets.
+hf auth login
+
+# SMI controllers.
+python scripts/download_assets.py --component controllers \
+  --models-config configs/models.local.json
+
+# Video generation backbones and encoders.
+python scripts/download_assets.py --component generators \
+  --models-config configs/models.local.json
+
+# For Qwen training.
+python scripts/download_assets.py --component data --extract
+python scripts/download_assets.py --component training-init
+```
+
+## Inference
+
+[scripts/run_inference.py](scripts/run_inference.py) runs **one input JSON** with either the Base generator or the Qwen-controlled SMI implementation. The same entry accepts your own first frame, prompt, and camera trajectory.
+
+| Method | Execution |
 | --- | --- |
-| Project website and video demonstrations | [Available](https://spatial-memory-intelligence.github.io/) |
-| Training, inference, and evaluation code | Coming soon |
-| Paper | [Available on arXiv](https://arxiv.org/abs/2610.02521) |
-| Model weights on Hugging Face | Link to be added |
-| Dataset | Link to be added |
+| `--method base` | Geometric FoV memory retrieval, with no Qwen controller. |
+| `--method qwen` | SMI memory management with the backbone-specific Qwen controller. |
 
-Installation requirements, runnable examples, and reproduction instructions will accompany the code release.
+### HY1.5
+
+Choose four or eight GPUs for a single inference job:
+
+```bash
+INPUT=examples/hy15/case0/input.json
+GPUS=0,1,2,3
+
+# For one eight-GPU job, use:
+# GPUS=0,1,2,3,4,5,6,7
+
+# Base
+python scripts/run_inference.py --backbone hy15 --input "$INPUT" \
+  --models configs/models.local.json --method base --gpus "$GPUS" \
+  --output outputs/hy15/base --execute
+
+# Qwen / SMI
+python scripts/run_inference.py --backbone hy15 --input "$INPUT" \
+  --models configs/models.local.json --method qwen --gpus "$GPUS" \
+  --output outputs/hy15/qwen --execute
+```
+
+Each command launches one job across all GPUs in `GPUS`. Run the command for the method you want. For Qwen inference, the generator and controller share those GPUs.
+
+### Wan2.2
+
+Use the same four- or eight-GPU setting with a Wan2.2 input:
+
+```bash
+INPUT=examples/wan22/case0/input.json
+GPUS=0,1,2,3
+
+# For one eight-GPU job, use:
+# GPUS=0,1,2,3,4,5,6,7
+
+# Base
+python scripts/run_inference.py --backbone wan22 --input "$INPUT" \
+  --models configs/models.local.json --method base --gpus "$GPUS" \
+  --output outputs/wan22/base --execute
+
+# Qwen / SMI
+python scripts/run_inference.py --backbone wan22 --input "$INPUT" \
+  --models configs/models.local.json --method qwen --gpus "$GPUS" \
+  --output outputs/wan22/qwen --execute
+```
+
+Runtime settings are read from [configs/inference.hy15.json](configs/inference.hy15.json) or [configs/inference.wan22.json](configs/inference.wan22.json); pass `--settings` to use a custom settings file.
+
+### Launch plans and outputs
+
+Omit `--execute` to generate a launch plan without loading models or starting inference. Each output directory contains the resolved generator command, controller command, GPU assignment, input hashes, logs, and generated videos. Base and Qwen use separate output directories. HY1.5 saves each decoded chunk's middle and last frames as `memory/chunk_###_mid.png` and `memory/chunk_###_last.png`.
+
+The launcher waits for its assigned GPU group to become idle. Add `--resume` to continue an unchanged plan and skip a completed run; use a new output directory after changing inputs or settings.
+
+For HY1.5, `--geometry-seed N` controls point sampling, and `--geometry-points /path/to/points.npy` lets Base and Qwen reuse the same saved point set. The launch plan records the file hash.
+
+## Qwen training
+
+Choose four or eight GPUs:
+
+```bash
+# Four GPUs
+GPUS=0,1,2,3
+
+# Or eight GPUs
+# GPUS=0,1,2,3,4,5,6,7
+```
+
+Train the HY1.5 controller with the selected GPU configuration:
+
+```bash
+python scripts/train_qwen.py --backbone hy15 --data datasets \
+  --init-model models/qwen-init --output outputs/train-hy15 \
+  --gpus "$GPUS" --execute
+```
+
+Train the Wan2.2 controller:
+
+```bash
+python scripts/train_qwen.py --backbone wan22 --data datasets \
+  --init-model models/qwen-init --output outputs/train-wan22 \
+  --gpus "$GPUS" --execute
+```
+
+Omit `--execute` to inspect the training command. Both recipes use a global batch size of 64, learning rate `2e-5`, 3,500 steps, cosine scheduling, 3% warmup, bf16, and seed 0. The language model is trained with the vision tower and projector frozen. Gradient accumulation adjusts to the GPU count.
+
+For a short test on either four or eight GPUs, add `--stop-after-steps 2 --max-samples 32 --total-batch-size 8` and use a separate output directory. Checkpoints include optimizer and RNG states.
+
+## License
+
+SMI's original contributions are licensed under [Apache-2.0](LICENSE). Third-party components retain their own licenses and notices.
+
+## Acknowledgements
+
+We thank the teams behind [HunyuanVideo-1.5](https://github.com/Tencent-Hunyuan/HunyuanVideo-1.5), [Wan2.2](https://github.com/Wan-Video/Wan2.2), [HY-WorldPlay](https://github.com/Tencent-Hunyuan/HY-WorldPlay), and [Qwen](https://github.com/QwenLM/Qwen3.5) for their open-source models and implementations.
 
 ## Citation
 

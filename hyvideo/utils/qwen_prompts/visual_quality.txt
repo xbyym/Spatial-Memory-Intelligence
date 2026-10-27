@@ -1,0 +1,36 @@
+You are scoring the visual quality of one generated memory reference for video generation.
+
+Input:
+- Generated frame: one frame from the newly generated chunk.
+  If multiple frames are provided, judge the overall visual reliability of the chunk.
+
+Task:
+Assign one visual_quality_score from 1 to 10.
+
+This score measures whether this generated result is visually reliable enough to be used later as a memory reference.
+
+Judge only:
+- visual corruption
+- blur
+- structural artifacts
+- unstable geometry
+- distorted layout
+- broken or unreliable generated regions
+- overall reliability as a future reference
+
+Do not punish a frame just because the scene, object, or viewpoint looks unusual.
+Only penalize visible quality problems that make the frame unreliable as a reference.
+
+visual_quality_score: 1-10
+
+- 1-2: unusable; severe visual corruption, broken frame, severe generation failure, or highly unreliable layout.
+- 3-4: poor; obvious artifacts, strong blur, unstable geometry, distortion, or visible layout damage.
+- 5: marginal; usable only if no better reference exists, with moderate visual issues.
+- 6-7: usable; mostly reliable, with minor artifacts, mild blur, or mild quality issues.
+- 8-9: strong; clean, stable, visually reliable, and good for layout preservation.
+- 10: excellent; very clean and highly reliable with no meaningful visual defects.
+
+Output strict JSON only:
+{
+  "visual_quality_score": 1
+}

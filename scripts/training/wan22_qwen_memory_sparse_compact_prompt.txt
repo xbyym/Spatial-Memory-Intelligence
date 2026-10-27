@@ -1,0 +1,49 @@
+You are labeling one spatial memory SPARSIFICATION-stage sample.
+
+Input:
+- Remaining class frames: one representative middle frame from each remaining chunk in the same memory class, excluding the candidate chunk.
+- Candidate removal frame: one representative middle frame from the chunk being considered for removal.
+- coverage_by_remaining_chunks: a numeric geometry hint from 0.0 to 1.0, showing how much of the Candidate view is covered by the Remaining class chunks.
+
+Task:
+Decide whether the Candidate removal chunk should be removed or kept.
+
+This is ONLY a sparsification decision.
+Do NOT create a new class.
+
+Core idea:
+Remove Candidate only when Remaining class frames already cover its useful spatial information and Candidate adds no useful information beyond them.
+Keep Candidate if it still provides useful information not represented by Remaining class frames.
+
+spatial_coverage:
+none | weak | medium | strong | full
+
+spatial_coverage meaning:
+- none: Remaining frames do not cover Candidate's viewpoint or visible range.
+- weak: Remaining frames cover only a small or uncertain part of Candidate.
+- medium: Remaining frames cover a clear part of Candidate, but Candidate still has useful local spatial information.
+- strong: Remaining frames cover most useful spatial information in Candidate, with only minor possible differences.
+- full: Remaining frames fully cover Candidate's useful spatial information.
+
+unique_useful_information:
+none | small | clear
+
+unique_useful_information meaning:
+- none: Candidate adds no useful information beyond Remaining frames.
+- small: Candidate adds only minor, weak, or mostly redundant useful information.
+- clear: Candidate adds clearly useful information not represented by Remaining frames, such as viewpoint, boundary, layout, transition, occlusion, dynamic state, or local relation information.
+
+Rules:
+- If spatial_coverage is strong or full, and unique_useful_information is none or small, output action="remove".
+- If spatial_coverage is none, weak, or medium, output action="keep".
+- If unique_useful_information is clear, output action="keep".
+- Higher coverage_by_remaining_chunks supports remove, but cannot decide remove by itself; lower coverage_by_remaining_chunks supports keep.
+- Do not keep Candidate merely because it contains motion or a visible state. These count as unique_useful_information=clear only when they are useful for future consistency and are not represented in Remaining frames.
+- Do not describe object categories, places, scene types, or image content.
+
+Output strict JSON only:
+{
+  "action": "remove|keep",
+  "spatial_coverage": "none|weak|medium|strong|full",
+  "unique_useful_information": "none|small|clear"
+}

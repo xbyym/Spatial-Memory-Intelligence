@@ -1,0 +1,95 @@
+You are selecting coverage memory references for video generation.
+
+Input:
+- Current frame: the final RGB frame from the immediately preceding local chunk, before the next chunk is generated.
+- Planned camera motion.
+- Candidate coverage frames, ordered by option label. Each Candidate is the final RGB frame from its historical chunk.
+- Each candidate has:
+  - option: candidate label, such as A, B, C
+  - chunk_id: historical chunk id
+  - visual_quality_score: precomputed score from 1 to 10
+
+Goal:
+Judge which candidate frames can help cover the expected next view for the next chunk.
+
+A coverage reference is useful if it can help the next chunk through viewpoint coverage, visible boundary continuity, spatial support, wider context, or recent dynamic-state continuity.
+
+Important:
+- Judge every candidate independently.
+- Multiple candidates can be useful at the same time.
+- Motion alignment and coverage usefulness are separate judgments.
+- Do not reject a useful candidate only because selected can contain at most 2 candidates.
+- acceptable lists every useful candidate.
+- selected is the best subset of acceptable, with at most 2 candidates.
+
+Motion classification:
+Classify every displayed candidate into exactly one group:
+- supports: aligned with the planned camera motion or helpful for the expected next view.
+- neutral: does not clearly support or oppose the planned motion, but may still provide useful continuity or context.
+- opposes: mainly supports the opposite direction of an important motion component.
+
+The supports, neutral, and opposes lists must be mutually exclusive and together contain every displayed candidate exactly once.
+
+Motion alignment alone does not decide acceptability. An opposing candidate may still be acceptable when it provides strong visible continuity or spatial support, although an equally useful supporting or neutral candidate should normally have higher selection priority.
+
+User-calibrated motion guidance:
+- move_forward: prefer high-overlap, clean, stable forward or central continuity. Strong side-biased candidates are usually worse unless they clearly help continuity.
+- move_backward: prefer wider coverage and complementary side context. A left-side plus right-side pair is often better than two high-overlap duplicates.
+- move_left or turn_left: prefer left-side or left-adjacent next-view support. If no ideal left-side candidate exists, use a conservative candidate only when it still provides genuinely useful continuity and does not clearly conflict with the motion.
+- move_right or turn_right: prefer right-side or right-adjacent next-view support. If no ideal right-side candidate exists, use a conservative candidate only when it still provides genuinely useful continuity and does not clearly conflict with the motion.
+- compound motion: apply the single-motion guidance to each important component. When the motion behaves like widening or backward motion, or has opposing side components, prefer broad complementary coverage.
+- mostly_static or very small motion: prioritize candidates with the strongest visible overlap, cleanest appearance, and smallest viewpoint change.
+
+Coverage guidance:
+- Judge coverage usefulness directly from Current, the planned camera motion, Candidate, and visual_quality_score.
+- Current and every Candidate are chunk-final frames; compare them at that same temporal position.
+- Candidate can be useful if it shows an area likely to enter or remain important in the next view.
+- Candidate can be useful if it provides continuity, boundary support, wider context, spatial support, or recent dynamic-state support.
+- A very similar view can be useful if it helps continuity, especially for move_forward, mostly_static, or small motions.
+- A different-looking view is not automatically useful. It must help the expected next view.
+- An old or recent candidate is not automatically useful. It must help the expected next view.
+- visual_quality_score is a reliability hint, not the sole decision. Reject visibly unreliable candidates even when their direction appears useful.
+
+Conflict guidance:
+- Be conservative when assigning opposes.
+- Opposite left and right directions can conflict.
+- Opposite up and down directions can conflict.
+- Front and back directions are not automatically conflicting.
+- For compound motion, assign opposes only when the candidate clearly conflicts with an important motion component.
+- If the direction is uncertain, use neutral instead of opposes.
+
+Acceptable guidance:
+- Put a candidate in acceptable when it is useful enough to be a valid coverage reference for the next chunk.
+- Exclude a candidate from acceptable when it lacks useful next-view support, continuity, context, or reliable spatial information.
+- Judge acceptable independently for every candidate before choosing selected.
+
+Selection rules:
+- First classify every candidate into one motion group.
+- Then list every useful candidate in acceptable.
+- selected must be a subset of acceptable.
+- Select at most 2 candidates.
+- If acceptable is not empty, selected should contain at least one candidate.
+- If more than 2 candidates are acceptable, choose the 1 or 2 candidates with the strongest next-view support and best complementary coverage.
+- Avoid selecting near-duplicate candidates when another acceptable candidate adds useful complementary support.
+- Do not select a candidate merely because it differs from Current.
+- If no candidate is acceptable, acceptable and selected must both be [].
+
+Output fields:
+- motion: every displayed candidate exactly once under supports, neutral, or opposes.
+- acceptable: every candidate judged useful as a coverage reference.
+- selected: the final subset of acceptable candidates, with at most 2 candidates.
+- Use only displayed candidate labels.
+
+Do not describe image content, objects, places, scene types, or categories.
+Output strict JSON only.
+
+Output format:
+{
+  "motion": {
+    "supports": ["A", "B", "C"],
+    "neutral": ["D"],
+    "opposes": ["E", "F", "G"]
+  },
+  "acceptable": ["A", "B", "C", "D"],
+  "selected": ["A", "B"]
+}

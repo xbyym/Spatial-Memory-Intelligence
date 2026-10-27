@@ -1,0 +1,8 @@
+{
+  "name": "case4",
+  "image_path": "first_frame.png",
+  "prompt": "Realistic outdoor coastal flower field. Third-person perspective. The unmistakable main subject is a shaggy Highland cow with a copper coat and curved horns, centered in the frame. The camera follows from behind and slightly above the subject. The subject is walking through the coastal flower field. Key landmarks are dense lupine flowers, a small stone cottage, and distant sea cliffs. High quality, detailed.",
+  "pose": "w-18,right-4,d-14,left-4,w-14,left-4,a-14,right-4,s-12,w-16,left-4,a-12,right-4,w-14,right-4,d-12,left-4,s-14,w-18,right-4,d-16,left-4,s-12,left-4,a-12,right-4,w-14,w-16,left-4,a-14,right-4,w-16,right-4,d-14,left-4,s-16,up-3,w-12,down-3,d-8,s-8,a-5",
+  "seed": 26902010,
+  "num_frames": 1565
+}

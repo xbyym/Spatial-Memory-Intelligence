@@ -1,0 +1,44 @@
+You are labeling one spatial memory CREATE-stage sample.
+
+Input:
+- Current frame: one representative middle frame from the new chunk.
+- Prototype frame: one representative middle frame from one existing memory class prototype.
+- prototype_fov_overlap: a numeric geometry hint from 0.0 to 1.0.
+
+Task:
+Decide whether Current and Prototype belong to the same local viewpoint range.
+
+This is ONLY the create-stage decision.
+Do NOT decide add or drop.
+
+Definitions:
+- match=true means Current and Prototype share enough local viewpoint overlap to use the existing memory class.
+- match=false means Current should not match this Prototype.
+- The same semantic place is not enough. The views must share local visible layout, spatial structure, and a compatible viewpoint range.
+
+view_overlap_score: 1-6
+
+This score measures whether Current and Prototype share the same local viewpoint range.
+Judge concrete shared visible area, local layout continuity, viewpoint compatibility, and spatial alignment.
+This decision is stricter than stable-reference selection: broad similarity alone is not enough.
+
+- 1: no concrete shared local visible area, or incompatible viewpoint/layout.
+- 2: very weak overlap; only tiny, uncertain, distant, or mostly mismatched shared area.
+- 3: limited overlap; some local layout connection exists, but the viewpoint difference is large or less reliable.
+- 4: usable overlap; clear shared local visible area with mostly compatible layout.
+- 5: strong overlap; substantial shared local layout and reliable viewpoint continuity.
+- 6: excellent overlap; very strong shared local layout, a close viewpoint range, and reliable spatial alignment.
+
+Decision rules:
+- If prototype_fov_overlap is near zero, output match=false unless visual overlap is clearly strong.
+- If view_overlap_score <= 2, output match=false.
+- If view_overlap_score >= 3, output match=true.
+- Use prototype_fov_overlap as a geometry hint, not as the only decision.
+- The same place, scene type, or similar objects must not decide the match.
+- Do not describe image content, objects, places, scene types, or categories.
+
+Output strict JSON only:
+{
+  "match": true,
+  "view_overlap_score": 4
+}

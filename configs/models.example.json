@@ -1,0 +1,11 @@
+{
+  "hy15_backbone": "/path/to/HunyuanVideo-1.5",
+  "hy15_action": "/path/to/ar_distilled_action_model/model.safetensors",
+  "wan22_backbone": "/path/to/Wan2.2-TI2V-5B-Diffusers",
+  "wan22_transformer": "/path/to/wan_transformer",
+  "wan22_action": "/path/to/wan_distilled_model/model.pt",
+  "qwen_checkpoints": {
+    "hy15": "../models/hy15",
+    "wan22": "../models/wan22"
+  }
+}

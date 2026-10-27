@@ -1,0 +1,12 @@
+{
+  "repository": "https://github.com/Tencent-Hunyuan/HY-WorldPlay",
+  "commit": "4d527bd7392282d58c6d3031adafd1ed9ba7690e",
+  "validated_overlay_snapshot": "fdb1971976d47c240268ca96fc2b3895b786809a",
+  "website_commit": "c63afd5a13b9d47e43eb443e502f771e0baaae70",
+  "sageattention": {
+    "repository": "https://github.com/cooper1637/SageAttention",
+    "commit": "d9704247a5139ab4c03bf7fc6b35cc0e2cbb5ea4",
+    "version": "2.2.0",
+    "source": "Exact clean source revision associated with the existing validated Wan runtime"
+  }
+}

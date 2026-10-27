@@ -1,0 +1,8 @@
+{
+  "name": "case0",
+  "image_path": "first_frame.png",
+  "prompt": "Photorealistic architectural and landscape photography. A refined hillside mountain lodge campus with a sheltered courtyard, pale stone studios and timber pergolas. Far left a descending valley village and railway viaduct; far right a turquoise reservoir, boat landing and distant hilltop chapel. Clear natural morning light, deep focus and realistic scale.",
+  "pose": "w-11,left-6,up-1,w-9,d-8,right-4,left-7,up-3,w-12,d-8,right-9,a-6,w-13,d-7,right-7,left-3,w-8,d-7,right-6,left-5,down-3,w-14,d-12,left-7,a-4,w-8,d-8,left-3,down-1,w-15,d-5,right-10,left-6,up-1,w-11,d-4,right-4,left-4,a-7,w-4",
+  "num_frames": 1085,
+  "seed": 10001
+}

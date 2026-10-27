@@ -1,0 +1,8 @@
+{
+  "name": "case7",
+  "image_path": "first_frame.png",
+  "prompt": "High-quality realistic 3D game environment viewed from an elevated first-person exploration camera. A stone and glass alpine cultural campus beside a turquoise lake. Foreground terrace and ateliers; a slim sculptural tower and descending garden paths in the middle distance. Far left: a blue-roofed hillside village and aqueduct. Far right: a timber pier, boathouse and ridge observatory. Crisp stone, glass and vegetation, clear sunny daylight. No character or interface.",
+  "pose": "w-11,right-6,up-1,w-9,a-8,left-4,right-7,up-3,w-12,a-8,left-9,d-6,w-13,a-7,left-7,right-3,w-8,a-7,left-6,right-5,down-3,w-14,a-12,right-7,d-4,w-8,a-8,right-3,down-1,w-15,a-5,left-10,right-6,up-1,w-11,a-4,left-4,right-4,d-7,w-4",
+  "num_frames": 1085,
+  "seed": 10001
+}

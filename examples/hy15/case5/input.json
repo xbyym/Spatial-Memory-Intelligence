@@ -1,0 +1,8 @@
+{
+  "name": "case5",
+  "image_path": "first_frame.png",
+  "prompt": "Realistic indoor museum gallery. First-person perspective. The camera represents the viewer's eyes. A bright marble exhibition hall extends ahead with repeated arches, framed paintings, a dinosaur skeleton on the left, and a green mineral sculpture on the right. All attached objects move with the viewer's gaze. The unmistakable new scene subject is an elderly woman art historian in an emerald coat, standing in the middle distance while studying the fossil exhibit. The subject is independent of the viewer's gaze and remains clearly identifiable. High quality, detailed.",
+  "pose": "left-60,hold-27,right-60,a-22,left-18,hold-8,right-18,d-22,a-18,d-18",
+  "seed": 26903100,
+  "num_frames": 1085
+}

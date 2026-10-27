@@ -1,0 +1,185 @@
+{
+  "name": "case2",
+  "image_path": "first_frame.jpg",
+  "perspective": "first_person",
+  "prompt": {
+    "0": "A modern single-story house with a stone and white facade sits under a partly cloudy sky, its covered porch and landscaped yard creating a serene, inviting exterior. Natural light brings out realistic ground texture, vegetation, distant terrain, and fixed structures. The empty setting retains a coherent spatial layout and a clearly traversable non-road route at human eye level.",
+    "1": "",
+    "2": "",
+    "3": "",
+    "4": "",
+    "5": "",
+    "6": "",
+    "7": "",
+    "8": "",
+    "9": "",
+    "10": "",
+    "11": "",
+    "12": "",
+    "13": "",
+    "14": ""
+  },
+  "navigation": {
+    "0": {
+      "move": [
+        0,
+        0
+      ],
+      "yaw": 1,
+      "pitch": 0
+    },
+    "1": {
+      "move": [
+        0,
+        0
+      ],
+      "yaw": -1,
+      "pitch": 0
+    },
+    "2": {
+      "move": [
+        0,
+        1
+      ],
+      "yaw": 0,
+      "pitch": 0
+    },
+    "3": {
+      "move": [
+        1,
+        0
+      ],
+      "yaw": 0,
+      "pitch": 0
+    },
+    "4": {
+      "move": [
+        0,
+        0
+      ],
+      "yaw": 1,
+      "pitch": 0
+    },
+    "5": {
+      "move": [
+        0,
+        -1
+      ],
+      "yaw": 0,
+      "pitch": 0
+    },
+    "6": {
+      "move": [
+        0,
+        0
+      ],
+      "yaw": -1,
+      "pitch": 0
+    },
+    "7": {
+      "move": [
+        1,
+        0
+      ],
+      "yaw": 0,
+      "pitch": 0
+    },
+    "8": {
+      "move": [
+        1,
+        0
+      ],
+      "yaw": 0,
+      "pitch": 0
+    },
+    "9": {
+      "move": [
+        0,
+        0
+      ],
+      "yaw": 1,
+      "pitch": 0
+    },
+    "10": {
+      "move": [
+        1,
+        0
+      ],
+      "yaw": 0,
+      "pitch": 0
+    },
+    "11": {
+      "move": [
+        0,
+        0
+      ],
+      "yaw": -1,
+      "pitch": 0
+    },
+    "12": {
+      "move": [
+        1,
+        0
+      ],
+      "yaw": 0,
+      "pitch": 0
+    },
+    "13": {
+      "move": [
+        0,
+        1
+      ],
+      "yaw": 0,
+      "pitch": 0
+    },
+    "14": {
+      "move": [
+        0,
+        0
+      ],
+      "yaw": 1,
+      "pitch": 0
+    }
+  },
+  "chunk_length": {
+    "0": 4.0,
+    "1": 4.0,
+    "2": 4.0,
+    "3": 4.0,
+    "4": 4.0,
+    "5": 4.0,
+    "6": 4.0,
+    "7": 4.0,
+    "8": 4.0,
+    "9": 4.0,
+    "10": 4.0,
+    "11": 4.0,
+    "12": 4.0,
+    "13": 4.0,
+    "14": 4.0
+  },
+  "rewrite": false,
+  "requires_explicit_poses": true,
+  "pose_json_path": "camera_poses.json",
+  "trajectory_npz_path": "trajectory.npz",
+  "duration_seconds": 60.0,
+  "delivery_frame_count": 1440,
+  "actions": [
+    "right",
+    "left",
+    "D",
+    "W",
+    "right",
+    "A",
+    "left",
+    "W",
+    "W",
+    "right",
+    "W",
+    "left",
+    "W",
+    "D",
+    "right"
+  ],
+  "seed": 0
+}

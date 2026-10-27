@@ -1,0 +1,8 @@
+{
+  "name": "case2",
+  "image_path": "first_frame.png",
+  "prompt": "Realistic indoor grand circular library. First-person perspective. The camera represents the viewer's eyes. Tall curved bookshelves surround a bright white rotunda with ladders, balconies, and a central reading area. The unmistakable new scene subject is a schoolgirl in a red sweater with a navy backpack, reading at the central table in the middle distance. The subject is independent of the viewer's gaze and remains clearly identifiable. High quality, detailed.",
+  "pose": "w-26,a-7,w-17,left-3,w-20,right-3,d-7,w-13,up-3,down-3,w-17,hold-1,s-17,up-3,down-3,s-13,a-7,left-3,s-20,right-3,s-17,d-7,s-26",
+  "seed": 26826014,
+  "num_frames": 957
+}

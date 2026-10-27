@@ -1,0 +1,53 @@
+{
+  "name": "case1",
+  "image_path": "first_frame.png",
+  "perspective": "first_person",
+  "prompt": {
+    "0": "Realistic indoor Gothic cathedral nave. First-person perspective. The camera represents the viewer's eyes. A long central aisle leads between dark wooden pews toward a luminous golden crucifix and altar. Tall pointed arches and stained-glass windows define the space. High quality, detailed.",
+    "1": "",
+    "2": "",
+    "3": ""
+  },
+  "navigation": {
+    "0": {
+      "move": [
+        0,
+        0
+      ],
+      "yaw": 0,
+      "pitch": 1
+    },
+    "1": {
+      "move": [
+        0,
+        0
+      ],
+      "yaw": 0,
+      "pitch": 1
+    },
+    "2": {
+      "move": [
+        0,
+        0
+      ],
+      "yaw": 0,
+      "pitch": -1
+    },
+    "3": {
+      "move": [
+        0,
+        0
+      ],
+      "yaw": 0,
+      "pitch": -1
+    }
+  },
+  "chunk_length": {
+    "0": 4,
+    "1": 4,
+    "2": 4,
+    "3": 4
+  },
+  "rewrite": true,
+  "seed": 0
+}

@@ -1,0 +1,113 @@
+You are selecting coverage-memory references for video generation.
+
+Input:
+- Current frame: the final frame before the next chunk is generated.
+- Planned camera motion.
+- Candidate coverage frames, ordered by option label.
+- Each candidate includes:
+  - option: the candidate label, such as A, B, or C
+
+Goal:
+Select only candidate frames that have sufficient visible overlap and spatial continuity with Current and can reliably support generation of the expected new viewpoint of the next chunk.
+
+Visible overlap and recoverable spatial continuity are mandatory. Motion alignment and complementary viewpoint coverage are secondary benefits and may be considered only after the mandatory continuity requirement is satisfied.
+
+Core principle:
+- A candidate is useful only when enough of its visible region and spatial layout can be matched to Current for the generator to align the two views reliably.
+- Semantic similarity alone is not visible overlap. Showing the same kind of scene without a clearly corresponding visible region is insufficient.
+- A candidate with little or no visually corresponding region must be rejected, even if it shows a large amount of new viewpoint coverage.
+- Correct motion direction, broader context, or stronger complementary coverage never compensates for insufficient visible overlap with Current.
+
+Decision priority:
+1. Sufficient visible overlap and spatial continuity with Current.
+2. A small, recoverable viewpoint displacement from Current.
+3. Alignment with the planned camera motion and support for the expected new viewpoint.
+4. Additional complementary coverage.
+
+A higher-priority requirement always overrides a lower-priority benefit.
+
+Important:
+- Judge each candidate independently from the actual images and spatial relationship.
+- Multiple candidates may be useful at the same time.
+- Do not assume that a candidate is suitable merely because of its option label or motion direction.
+- Progressive nearby candidates are not redundant when they form a gradual, recoverable viewpoint transition.
+
+For each candidate, determine:
+1. Whether Candidate has enough visible overlap and spatial correspondence with Current.
+2. Whether Candidate's viewpoint displacement is small enough to be recovered reliably by the generator.
+3. Whether Candidate helps cover the expected new viewpoint after the planned camera motion.
+4. Whether Candidate is acceptable as a coverage reference.
+
+Motion alignment:
+Classify every candidate into exactly one of these three groups:
+- supports: aligned with the planned camera motion or helpful for the expected new viewpoint.
+- neutral: neither clearly supports nor clearly opposes the planned motion, but may still provide useful continuity.
+- opposes: primarily aligned with the opposite direction of an important motion component.
+
+The three motion groups must be mutually exclusive, and together they must contain every displayed candidate exactly once.
+
+Motion alignment and acceptability are separate judgments except for exact turn_left+move_right and turn_right+move_left. For either of these two turn-cross motions, a candidate classified as opposes must not appear in acceptable or selected. A strong continuity anchor that does not clearly oppose the primary turn should be classified as neutral instead. Outside these two exact motions, motion alignment alone does not make a candidate acceptable or unacceptable.
+
+Use the candidate's position relative to Current as guidance, but also consider the actual visual-spatial and visual-semantic context.
+
+Overlap and recoverability guidance:
+- A candidate is acceptable only when it has sufficient shared visible region and spatial structure for reliable alignment with Current.
+- If only a very small boundary region overlaps, or no stable visual-spatial correspondence can be established, the candidate is not acceptable.
+- A large viewpoint jump is unacceptable when the shared visible region is too small for reliable recovery.
+- When overlap or recoverability is uncertain, prefer the closer and more continuous candidate.
+- Similar nearby candidates may both be useful when they provide a gradual transition. Do not reject them merely for being similar.
+- Do not replace a closer, sufficiently aligned candidate with a farther candidate only because the farther candidate provides broader coverage.
+
+Motion guidance:
+- Base each decision jointly on visible overlap, spatial continuity, recoverable displacement, motion alignment, and visual-semantic alignment.
+- For static or very small motion, prioritize the candidates with the strongest visible overlap and smallest viewpoint change.
+- For compound motion, a candidate must remain spatially recoverable while supporting the important motion components.
+- For exact turn_left+move_right, prioritize recoverable left-rotation support; treat move_right translation as secondary. Do not reinterpret it as backward widening or prefer bilateral coverage over the left-turn direction.
+- For exact turn_right+move_left, prioritize recoverable right-rotation support; treat move_left translation as secondary. Do not reinterpret it as backward widening or prefer bilateral coverage over the right-turn direction.
+- For these two exact turn-cross motions, acceptable and selected must not contain any candidate classified as opposes.
+
+Conflict guidance:
+- Be conservative when assigning a candidate to opposes.
+- Opposing left/right directions may conflict.
+- Opposing up/down directions may conflict.
+- Forward/backward directions are not automatically conflicting.
+- For compound motion, assign opposes only when the candidate clearly conflicts with an important motion component.
+- If the direction is uncertain, treat it as neutral rather than opposing.
+- Regardless of motion alignment, insufficient visible overlap always makes a candidate unacceptable and unselected.
+
+Selection rules:
+- First judge every candidate's visible overlap and recoverable spatial continuity with Current.
+- Any candidate that fails this mandatory requirement must not appear in acceptable or selected.
+- List every candidate that satisfies all mandatory requirements in acceptable, subject to the strict turn-cross conflict rule above.
+- selected must be a subset of acceptable.
+- The required selected count is exactly min(3, the number of acceptable candidates).
+- If acceptable is [], selected must be [].
+- If acceptable contains 1, 2, or 3 candidates, selected must contain all of them.
+- If acceptable contains 4 or more candidates, selected must contain exactly the best 3 candidates.
+- acceptable must never be non-empty while selected is empty.
+- Among acceptable candidates, prefer the closest candidates in supports, followed by strong continuity anchors in neutral.
+- selected should include at least one strong continuity anchor whenever an acceptable anchor exists.
+- Every selected candidate must have sufficient overlap and recoverability. When more than 3 candidates are acceptable, use motion support, continuity, and recoverable displacement to choose the best 3.
+- Progressive nearby candidates may both be selected when they form a gradual transition; do not skip a closer candidate merely to obtain broader complementary coverage.
+- Never select a more displaced candidate only for broader coverage when a closer aligned candidate provides adequate support.
+- If every candidate has insufficient overlap, excessive displacement, an unrecoverable viewpoint change, or only conflicts with the primary turn direction, both acceptable and selected must be [].
+
+Output fields:
+- motion: classify every displayed candidate exactly once under supports, neutral, or opposes.
+- acceptable: every candidate that satisfies the mandatory visible-overlap, recoverability, and strict turn-cross conflict requirements.
+- selected: the final subset of acceptable candidates, with exactly min(3, len(acceptable)) candidates.
+- Use only candidate labels that are actually displayed. If only A and B are displayed, the three motion lists together must contain exactly A and B, not C-G.
+
+Do not describe image content, objects, locations, scene types, or categories.
+Output strict JSON only.
+
+Output format:
+{
+  "motion": {
+    "supports": ["A", "B"],
+    "neutral": ["C", "D"],
+    "opposes": ["E", "F", "G"]
+  },
+  "acceptable": ["A", "B", "C"],
+  "selected": ["A", "B", "C"]
+}
