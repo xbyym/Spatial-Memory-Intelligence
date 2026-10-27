@@ -131,7 +131,7 @@ Runtime settings are read from [configs/inference.hy15.json](configs/inference.h
 
 ### Launch plans and outputs
 
-Omit `--execute` to generate a launch plan without loading models or starting inference. Each output directory contains the resolved generator command, controller command, GPU assignment, input hashes, logs, and generated videos. Base and Qwen use separate output directories. HY1.5 saves each decoded chunk's middle and last frames as `memory/chunk_###_mid.png` and `memory/chunk_###_last.png`.
+Omit `--execute` to generate a launch plan without loading models or starting inference. Each output directory contains the resolved generator command, controller command, GPU assignment, input hashes, logs, and generated videos.
 
 The launcher waits for its assigned GPU group to become idle. Add `--resume` to continue an unchanged plan and skip a completed run; use a new output directory after changing inputs or settings.
 
